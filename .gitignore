@@ -24,8 +24,9 @@ Thumbs.db
 .env
 .env.*
 
-# Debug APK on desktop
+# Debug APK on desktop (keep VitaMahjong-debug.apk in repo)
 *.apk
+!VitaMahjong-debug.apk
 
 # Temp
 *.log
