@@ -1,0 +1,45 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Android build artifacts
+android/app/build/
+android/.gradle/
+android/build/
+android/capacitor-cordova-android-plugins/build/
+android/capacitor-android/build/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.*
+
+# Debug APK on desktop
+*.apk
+
+# Temp
+*.log
+
+# npm bin stubs (mistakenly in root)
+tsc
+tsc.cmd
+tsc.ps1
+tsserver
+tsserver.cmd
+tsserver.ps1
+vite
+vite.cmd
+vite.ps1
+vitest
+vitest.cmd
+vitest.ps1
