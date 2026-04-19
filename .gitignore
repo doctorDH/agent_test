@@ -4,6 +4,9 @@ node_modules/
 # Build output
 dist/
 
+# Docs (local only)
+docs/
+
 # Android build artifacts
 android/app/build/
 android/.gradle/

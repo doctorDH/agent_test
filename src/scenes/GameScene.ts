@@ -256,6 +256,9 @@ export class GameScene implements IScene {
 
     // 启动背景音乐
     this.soundManager.startBGM();
+
+    // 从存档恢复也初始化 Agent 编排器
+    this.initAgentOrchestrator();
   }
 
   /** 重置内部状态变量 */

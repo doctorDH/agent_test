@@ -1,6 +1,6 @@
 # Vita Mahjong
 
-Canvas 麻将消除游戏 —— 一个用于学习**多 Agent 协作开发**的实战项目。
+基于 Canvas 的麻将消除游戏，采用**多 Agent 协作架构**开发。
 
 ## 游戏截图
 
@@ -26,8 +26,6 @@ vita-mahjong/
 │   ├── ui-agent.md        #   UI - Canvas 渲染与交互
 │   ├── level-design-agent.md# 关卡设计 - 20 关布局
 │   └── qa-agent.md        #   QA - 测试与验证
-├── docs/
-│   └── agent-study-guide.md # Agent 学习指南（复盘+模式+框架对比）
 ├── src/
 │   ├── agents/            # 游戏内 Agent 系统
 │   │   ├── AgentOrchestrator.ts  # Agent 编排器
@@ -81,9 +79,9 @@ cd android && ./gradlew assembleDebug
 # APK 输出: android/app/build/outputs/apk/debug/app-debug.apk
 ```
 
-## 多 Agent 开发架构
+## 多 Agent 架构
 
-本项目采用**两层 Agent 架构**进行开发：
+本项目采用**两层 Agent 架构**：
 
 ### 第一层：开发侧 Agent（5 个）
 
@@ -107,7 +105,7 @@ cd android && ./gradlew assembleDebug
 | DifficultyAgent | 跟踪玩家表现，每 30 秒评估难度匹配度 |
 | AgentOrchestrator | 编排器，管理所有游戏内 Agent 的生命周期 |
 
-## 增量开发进度
+## 开发进度
 
 | Phase | 内容 | 主力 Agent | 协作模式 |
 |-------|------|-----------|---------|
@@ -115,16 +113,7 @@ cd android && ./gradlew assembleDebug
 | Phase 2 逻辑 | BoardEngine + MatchingEngine + ScoreEngine + ShuffleEngine + 50 个测试 | Game Logic + QA | 流水线 |
 | Phase 3 渲染 | Canvas 渲染 + 完整 UI 流程 | UI | 消费契约 |
 | Phase 4 打磨 | 20 关 + 难度曲线 + 存档 + 音效 + Android APK | Level Design + UI | 并行扇出 |
-| Phase 5 Agent | HintAgent + DifficultyAgent + AgentOrchestrator + 学习文档 | Game Logic | 编排器模式 |
-
-## 学习资源
-
-详见 [`docs/agent-study-guide.md`](docs/agent-study-guide.md)，包含：
-
-- **A. 复盘**：逐阶段分析 5 个开发侧 Agent 的协作工作流
-- **B. 提炼**：6 个可复用的 Agent 模式（共享契约、发布/订阅、编排器、流水线、并行扇出、回调委托）
-- **C. 对比**：LangChain Agent / AutoGen / CrewAI 与本项目手工模式的对比
-- **D. 动手**：游戏内 Agent 系统的完整实现指南
+| Phase 5 Agent | HintAgent + DifficultyAgent + AgentOrchestrator | Game Logic | 编排器模式 |
 
 ## License
 

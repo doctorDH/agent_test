@@ -38,6 +38,7 @@ export class DifficultyAgent implements IGameAgent {
     this.lastMatchElapsed = context.session.elapsedMs;
     this.pairIntervals = [];
     this.lastAssessElapsed = 0;
+    console.log('[DifficultyAgent] 初始化完成，评估间隔:', ASSESS_INTERVAL_MS, 'ms');
   }
 
   update(session: GameSession, _delta: number): void {

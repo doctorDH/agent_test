@@ -33,6 +33,7 @@ export class HintAgent implements IGameAgent {
     this.lastMatchCount = context.session.matchCount;
     this.lastMatchElapsed = context.session.elapsedMs;
     this.hintSentForIdle = false;
+    console.log('[HintAgent] 初始化完成，空闲阈值:', IDLE_THRESHOLD_MS, 'ms');
   }
 
   update(session: GameSession, _delta: number): void {
@@ -51,6 +52,7 @@ export class HintAgent implements IGameAgent {
     if (idleTime >= IDLE_THRESHOLD_MS && !this.hintSentForIdle) {
       this.hintSentForIdle = true;
       const pairs = findAllFreePairs(session.board);
+      console.log(`[HintAgent] 空闲 ${Math.round(idleTime / 1000)}s，可用配对: ${pairs.length}`);
       if (pairs.length > 0) {
         // 发送提示建议事件
         this.emitEvent?.({
