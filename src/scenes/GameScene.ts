@@ -294,10 +294,16 @@ export class GameScene implements IScene {
   /** 处理 Agent 发出的事件 */
   private handleAgentEvent(event: AgentEvent): void {
     if (event.type === AgentEventType.HintSuggestion) {
-      // Agent 建议提示：显示浮动消息提醒玩家
+      // Agent 建议提示：高亮配对牌 + 浮动消息
       const payload = event.payload as { pair: [number, number]; totalAvailable: number };
       if (payload && this.session?.status === 'playing') {
-        this.floatingMsg = { text: `💡 试试看这对牌？(共${payload.totalAvailable}对可消)`, timeLeft: FLOAT_MSG_DURATION * 2 };
+        this.clearSelections();
+        const [id1, id2] = payload.pair;
+        const tile1 = this.session.board.tiles.get(id1);
+        const tile2 = this.session.board.tiles.get(id2);
+        if (tile1) tile1.state = TileState.Highlighted;
+        if (tile2) tile2.state = TileState.Highlighted;
+        this.floatingMsg = { text: `💡 试试这对牌？(共${payload.totalAvailable}对可消)`, timeLeft: FLOAT_MSG_DURATION * 2 };
       }
     } else if (event.type === AgentEventType.DifficultyAdjustment) {
       // Agent 难度评估：记录到控制台（后续可扩展为动态调难度）
