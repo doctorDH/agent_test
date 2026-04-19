@@ -19,6 +19,11 @@ import { getLevel, getLevelCount } from '../levels/LevelManager';
 import type { ProgressManager, SerializedGameSave } from '../core/ProgressManager';
 import type { SoundManager } from '../audio/SoundManager';
 import { SettingsPanel } from './SettingsPanel';
+import { AgentOrchestrator } from '../agents/AgentOrchestrator';
+import { HintAgent } from '../agents/HintAgent';
+import { DifficultyAgent } from '../agents/DifficultyAgent';
+import type { AgentEvent } from '../types/agents';
+import { AgentEventType } from '../types/agents';
 
 /** 设计宽度 */
 const DESIGN_WIDTH = 750;
@@ -113,6 +118,9 @@ export class GameScene implements IScene {
   // ── 设置面板 ──────────────────────────────────
   private settingsPanel: SettingsPanel;
 
+  // ── Agent 编排器 ──────────────────────────────
+  private orchestrator: AgentOrchestrator | null = null;
+
   constructor(eventBus: IEventBus, getDesignHeight: () => number, progressManager: ProgressManager, soundManager: SoundManager) {
     this.eventBus = eventBus;
     this.getDesignHeight = getDesignHeight;
@@ -200,6 +208,9 @@ export class GameScene implements IScene {
 
     // 启动背景音乐
     this.soundManager.startBGM();
+
+    // 初始化 Agent 编排器
+    this.initAgentOrchestrator();
   }
 
   /** 从存档恢复游戏 */
@@ -263,10 +274,43 @@ export class GameScene implements IScene {
     this.animManager.cancelAll();
   }
 
+  /** 初始化 Agent 编排器 */
+  private initAgentOrchestrator(): void {
+    // 销毁旧编排器
+    this.orchestrator?.disposeAll();
+
+    this.orchestrator = new AgentOrchestrator();
+    this.orchestrator.registerAgent(new HintAgent());
+    this.orchestrator.registerAgent(new DifficultyAgent());
+    this.orchestrator.initializeAll({
+      session: this.session!,
+      emitEvent: (event: AgentEvent) => this.handleAgentEvent(event),
+    });
+  }
+
+  /** 处理 Agent 发出的事件 */
+  private handleAgentEvent(event: AgentEvent): void {
+    if (event.type === AgentEventType.HintSuggestion) {
+      // Agent 建议提示：显示浮动消息提醒玩家
+      const payload = event.payload as { pair: [number, number]; totalAvailable: number };
+      if (payload && this.session?.status === 'playing') {
+        this.floatingMsg = { text: `💡 试试看这对牌？(共${payload.totalAvailable}对可消)`, timeLeft: FLOAT_MSG_DURATION * 2 };
+      }
+    } else if (event.type === AgentEventType.DifficultyAdjustment) {
+      // Agent 难度评估：记录到控制台（后续可扩展为动态调难度）
+      const payload = event.payload as { difficulty: string; reason: string };
+      if (payload) {
+        console.log(`[DifficultyAgent] ${payload.difficulty}: ${payload.reason}`);
+      }
+    }
+  }
+
   exit(): void {
     document.removeEventListener('visibilitychange', this.handleVisibilityChange);
     this.soundManager.stopBGM();
     this.animManager.cancelAll();
+    this.orchestrator?.disposeAll();
+    this.orchestrator = null;
     this.session = null;
     this.levelDef = null;
   }
@@ -305,6 +349,11 @@ export class GameScene implements IScene {
       if (this.scoreFloats[i].timeLeft <= 0) {
         this.scoreFloats.splice(i, 1);
       }
+    }
+
+    // 更新 Agent 编排器
+    if (this.orchestrator && this.session) {
+      this.orchestrator.updateAll(this.session, dt);
     }
   }
 
