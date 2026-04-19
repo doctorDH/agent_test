@@ -125,6 +125,12 @@ export class GameScene implements IScene {
     this.animManager = new AnimationManager();
     this.particleSystem = new ParticleSystem();
     this.settingsPanel = new SettingsPanel(progressManager, soundManager);
+    this.settingsPanel.setOnRestart(() => {
+      if (this.session) {
+        this.progressManager.clearGameSave();
+        this.startFreshLevel(this.session.levelId);
+      }
+    });
   }
 
   enter(data?: unknown): void {

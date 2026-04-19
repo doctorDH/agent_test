@@ -150,6 +150,96 @@ const DIFFICULTY_PRESETS: DifficultyParams[] = [
     bonusTimeThreshold: 300000,
     comboWindowMs: 2000,
   },
+  // Level 11 - 双塔（48牌）
+  {
+    maxLayers: 3,
+    tileVariety: 18,
+    initialShuffles: 4,
+    initialHints: 4,
+    bonusTimeThreshold: 300000,
+    comboWindowMs: 2000,
+  },
+  // Level 12 - 宽桥（60牌）
+  {
+    maxLayers: 3,
+    tileVariety: 20,
+    initialShuffles: 4,
+    initialHints: 3,
+    bonusTimeThreshold: 320000,
+    comboWindowMs: 2000,
+  },
+  // Level 13 - 风车（72牌）
+  {
+    maxLayers: 4,
+    tileVariety: 20,
+    initialShuffles: 3,
+    initialHints: 3,
+    bonusTimeThreshold: 350000,
+    comboWindowMs: 2000,
+  },
+  // Level 14 - 回廊（80牌）
+  {
+    maxLayers: 4,
+    tileVariety: 22,
+    initialShuffles: 3,
+    initialHints: 3,
+    bonusTimeThreshold: 360000,
+    comboWindowMs: 1800,
+  },
+  // Level 15 - 阶梯（84牌）
+  {
+    maxLayers: 5,
+    tileVariety: 24,
+    initialShuffles: 3,
+    initialHints: 3,
+    bonusTimeThreshold: 380000,
+    comboWindowMs: 1800,
+  },
+  // Level 16 - 蜂巢（96牌）
+  {
+    maxLayers: 4,
+    tileVariety: 24,
+    initialShuffles: 3,
+    initialHints: 2,
+    bonusTimeThreshold: 400000,
+    comboWindowMs: 1800,
+  },
+  // Level 17 - 迷城（100牌）
+  {
+    maxLayers: 5,
+    tileVariety: 26,
+    initialShuffles: 2,
+    initialHints: 2,
+    bonusTimeThreshold: 420000,
+    comboWindowMs: 1500,
+  },
+  // Level 18 - 双十字（108牌）
+  {
+    maxLayers: 5,
+    tileVariety: 28,
+    initialShuffles: 2,
+    initialHints: 2,
+    bonusTimeThreshold: 450000,
+    comboWindowMs: 1500,
+  },
+  // Level 19 - 巨塔（112牌）
+  {
+    maxLayers: 6,
+    tileVariety: 30,
+    initialShuffles: 2,
+    initialHints: 2,
+    bonusTimeThreshold: 480000,
+    comboWindowMs: 1500,
+  },
+  // Level 20 - 传说（120牌）
+  {
+    maxLayers: 7,
+    tileVariety: 34,
+    initialShuffles: 2,
+    initialHints: 2,
+    bonusTimeThreshold: 500000,
+    comboWindowMs: 1500,
+  },
 ];
 
 // ============================================================

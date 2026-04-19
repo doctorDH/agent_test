@@ -17,9 +17,9 @@ const DESIGN_WIDTH = 750;
 
 /** 网格配置 */
 const GRID_COLS = 5;
-const GRID_ROWS = 2;
-const BTN_SIZE = 110;
-const BTN_GAP = 15;
+const GRID_ROWS = 4;
+const BTN_SIZE = 90;
+const BTN_GAP = 10;
 
 /** 关卡按钮信息 */
 interface LevelButton {

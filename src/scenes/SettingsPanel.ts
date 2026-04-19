@@ -30,6 +30,7 @@ export class SettingsPanel {
   private iconToggles: ToggleItem[] = [];
   private rowToggles: ToggleItem[] = [];
   private listItems: PRect[] = [];
+  private onRestart: (() => void) | null = null;
 
   constructor(progressManager: ProgressManager, soundManager: SoundManager) {
     this.progressManager = progressManager;
@@ -42,6 +43,11 @@ export class SettingsPanel {
 
   close(): void {
     this.visible = false;
+  }
+
+  /** 设置重新开始回调 */
+  setOnRestart(cb: () => void): void {
+    this.onRestart = cb;
   }
 
   isVisible(): boolean {
@@ -324,9 +330,14 @@ export class SettingsPanel {
       }
     }
 
-    // 列表项（占位，不做处理）
-    for (const item of this.listItems) {
-      if (this.hitTest(x, y, item)) {
+    // 列表项
+    for (let i = 0; i < this.listItems.length; i++) {
+      if (this.hitTest(x, y, this.listItems[i])) {
+        // 最后一项"重新开始"
+        if (i === this.listItems.length - 1 && this.onRestart) {
+          this.onRestart();
+          this.close();
+        }
         return true;
       }
     }

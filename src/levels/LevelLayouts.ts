@@ -487,10 +487,310 @@ function validateLayout(config: BoardConfig): void {
   }
 }
 
+// ============================================================
+// Level 11 - 双塔（48 张牌，24 对，3 层）
+// 左右对称的双塔结构
+// ============================================================
+
+function buildLevel11(): TilePosition[] {
+  const positions: TilePosition[] = [];
+  // 底层：左右各 3x4 = 12 → 24
+  positions.push(...rectLayer(0, 0, 3, 4, 0));
+  positions.push(...rectLayer(10, 0, 3, 4, 0));
+  // 中间层：左右各 2x3 = 6 → 12
+  positions.push(...rectLayer(1, 1, 2, 3, 1));
+  positions.push(...rectLayer(11, 1, 2, 3, 1));
+  // 顶层：左右各 2x3 = 6 → 12
+  positions.push(...rectLayer(1, 1, 2, 3, 2));
+  positions.push(...rectLayer(11, 1, 2, 3, 2));
+  return positions;  // 48
+}
+
+const level11Layout: BoardConfig = {
+  id: 'level_11_twin_tower',
+  name: '双塔',
+  cols: 16,
+  rows: 8,
+  layers: 3,
+  tilePositions: buildLevel11(),
+  totalTiles: 48,
+};
+
+// ============================================================
+// Level 12 - 宽桥（60 张牌，30 对，3 层）
+// 空心外环 + 实心内层
+// ============================================================
+
+function buildLevel12(): TilePosition[] {
+  const positions: TilePosition[] = [];
+  // 底层：8x5 空心，挖去中间 4x1 = 36
+  positions.push(...hollowRectLayer(0, 0, 8, 5, 4, 1, 0));
+  // 中间层：6x3 = 18
+  positions.push(...rectLayer(1, 1, 6, 3, 1));
+  // 顶层：3x2 = 6
+  positions.push(...rectLayer(3, 2, 3, 2, 2));
+  return positions;  // 36+18+6=60
+}
+
+const level12Layout: BoardConfig = {
+  id: 'level_12_bridge',
+  name: '宽桥',
+  cols: 16,
+  rows: 10,
+  layers: 3,
+  tilePositions: buildLevel12(),
+  totalTiles: 60,
+};
+
+// ============================================================
+// Level 13 - 风车（72 张牌，36 对，4 层）
+// 层层递减的矩形堆叠
+// ============================================================
+
+function buildLevel13(): TilePosition[] {
+  const positions: TilePosition[] = [];
+  // 底层：8x4 = 32
+  positions.push(...rectLayer(0, 0, 8, 4, 0));
+  // 二层：6x4 = 24
+  positions.push(...rectLayer(2, 1, 6, 4, 1));
+  // 三层：4x3 = 12
+  positions.push(...rectLayer(4, 2, 4, 3, 2));
+  // 四层：2x2 = 4
+  positions.push(...rectLayer(6, 3, 2, 2, 3));
+  return positions;  // 72
+}
+
+const level13Layout: BoardConfig = {
+  id: 'level_13_windmill',
+  name: '风车',
+  cols: 16,
+  rows: 10,
+  layers: 4,
+  tilePositions: buildLevel13(),
+  totalTiles: 72,
+};
+
+// ============================================================
+// Level 14 - 回廊（80 张牌，40 对，4 层）
+// 空心环形 + 实心内核
+// ============================================================
+
+function buildLevel14(): TilePosition[] {
+  const positions: TilePosition[] = [];
+  // 底层：8x6 空心，挖去中间 4x2 = 40
+  positions.push(...hollowRectLayer(0, 0, 8, 6, 4, 2, 0));
+  // 二层：6x4 空心，挖去中间 2x2 = 20
+  positions.push(...hollowRectLayer(2, 1, 6, 4, 2, 2, 1));
+  // 三层：4x4 = 16
+  positions.push(...rectLayer(3, 2, 4, 4, 2));
+  // 四层：2x2 = 4
+  positions.push(...rectLayer(5, 3, 2, 2, 3));
+  return positions;  // 40+20+16+4=80
+}
+
+const level14Layout: BoardConfig = {
+  id: 'level_14_corridor',
+  name: '回廊',
+  cols: 16,
+  rows: 14,
+  layers: 4,
+  tilePositions: buildLevel14(),
+  totalTiles: 80,
+};
+
+// ============================================================
+// Level 15 - 阶梯（84 张牌，42 对，5 层）
+// 三级台阶底座 + 高层收窄
+// ============================================================
+
+function buildLevel15(): TilePosition[] {
+  const positions: TilePosition[] = [];
+  // 底层：三个 3x4 阶梯错位（无重叠）→ 36
+  positions.push(...rectLayer(0, 0, 3, 4, 0));
+  positions.push(...rectLayer(6, 2, 3, 4, 0));
+  positions.push(...rectLayer(12, 4, 3, 4, 0));
+  // 二层：两个 3x4 桥接 → 24
+  positions.push(...rectLayer(3, 1, 3, 4, 1));
+  positions.push(...rectLayer(9, 3, 3, 4, 1));
+  // 三层：4x4 = 16
+  positions.push(...rectLayer(5, 2, 4, 4, 2));
+  // 四层：3x2 = 6
+  positions.push(...rectLayer(7, 3, 3, 2, 3));
+  // 五层：1x2 = 2
+  positions.push(...rectLayer(8, 4, 1, 2, 4));
+  return positions;  // 36+24+16+6+2=84
+}
+
+const level15Layout: BoardConfig = {
+  id: 'level_15_staircase',
+  name: '阶梯',
+  cols: 18,
+  rows: 14,
+  layers: 5,
+  tilePositions: buildLevel15(),
+  totalTiles: 84,
+};
+
+// ============================================================
+// Level 16 - 蜂巢（96 张牌，48 对，4 层）
+// 宽大底座逐层收窄
+// ============================================================
+
+function buildLevel16(): TilePosition[] {
+  const positions: TilePosition[] = [];
+  // 底层：8x6 = 48
+  positions.push(...rectLayer(0, 0, 8, 6, 0));
+  // 二层：6x4 = 24
+  positions.push(...rectLayer(2, 2, 6, 4, 1));
+  // 三层：4x4 = 16
+  positions.push(...rectLayer(4, 3, 4, 4, 2));
+  // 四层：4x2 = 8
+  positions.push(...rectLayer(5, 4, 4, 2, 3));
+  return positions;  // 48+24+16+8=96
+}
+
+const level16Layout: BoardConfig = {
+  id: 'level_16_hive',
+  name: '蜂巢',
+  cols: 16,
+  rows: 14,
+  layers: 4,
+  tilePositions: buildLevel16(),
+  totalTiles: 96,
+};
+
+// ============================================================
+// Level 17 - 迷城（100 张牌，50 对，5 层）
+// 宽广底盘 + 多层递减
+// ============================================================
+
+function buildLevel17(): TilePosition[] {
+  const positions: TilePosition[] = [];
+  // 底层：10x5 = 50
+  positions.push(...rectLayer(0, 0, 10, 5, 0));
+  // 二层：6x4 = 24
+  positions.push(...rectLayer(4, 1, 6, 4, 1));
+  // 三层：4x4 = 16
+  positions.push(...rectLayer(6, 2, 4, 4, 2));
+  // 四层：3x2 = 6
+  positions.push(...rectLayer(7, 3, 3, 2, 3));
+  // 五层：2x2 = 4
+  positions.push(...rectLayer(8, 4, 2, 2, 4));
+  return positions;  // 50+24+16+6+4=100
+}
+
+const level17Layout: BoardConfig = {
+  id: 'level_17_labyrinth',
+  name: '迷城',
+  cols: 20,
+  rows: 12,
+  layers: 5,
+  tilePositions: buildLevel17(),
+  totalTiles: 100,
+};
+
+// ============================================================
+// Level 18 - 双十字（108 张牌，54 对，5 层）
+// 十字形逐层堆叠
+// ============================================================
+
+function buildLevel18(): TilePosition[] {
+  const positions: TilePosition[] = [];
+  // 底层：十字 armLen=4, armWidth=2 → 36
+  positions.push(...crossLayer(10, 10, 4, 2, 0));
+  // 二层：十字 armLen=3, armWidth=2 → 28
+  positions.push(...crossLayer(10, 10, 3, 2, 1));
+  // 三层：十字 armLen=2, armWidth=2 → 20
+  positions.push(...crossLayer(10, 10, 2, 2, 2));
+  // 四层：4x4 = 16
+  positions.push(...rectLayer(7, 7, 4, 4, 3));
+  // 五层：2x4 = 8
+  positions.push(...rectLayer(9, 8, 2, 4, 4));
+  return positions;  // 36+28+20+16+8=108
+}
+
+const level18Layout: BoardConfig = {
+  id: 'level_18_double_cross',
+  name: '双十字',
+  cols: 22,
+  rows: 22,
+  layers: 5,
+  tilePositions: buildLevel18(),
+  totalTiles: 108,
+};
+
+// ============================================================
+// Level 19 - 巨塔（112 张牌，56 对，6 层）
+// 宽底窄顶的巨型塔楼
+// ============================================================
+
+function buildLevel19(): TilePosition[] {
+  const positions: TilePosition[] = [];
+  // 底层：10x5 = 50
+  positions.push(...rectLayer(0, 0, 10, 5, 0));
+  // 二层：8x4 = 32
+  positions.push(...rectLayer(2, 1, 8, 4, 1));
+  // 三层：5x4 = 20
+  positions.push(...rectLayer(5, 2, 5, 4, 2));
+  // 四层：3x2 = 6
+  positions.push(...rectLayer(7, 3, 3, 2, 3));
+  // 五层：1x2 = 2
+  positions.push(...rectLayer(8, 4, 1, 2, 4));
+  // 六层：1x2 = 2
+  positions.push(...rectLayer(9, 4, 1, 2, 5));
+  return positions;  // 50+32+20+6+2+2=112
+}
+
+const level19Layout: BoardConfig = {
+  id: 'level_19_giant_tower',
+  name: '巨塔',
+  cols: 20,
+  rows: 12,
+  layers: 6,
+  tilePositions: buildLevel19(),
+  totalTiles: 112,
+};
+
+// ============================================================
+// Level 20 - 传说（120 张牌，60 对，7 层）
+// 终极关卡，最大最高的堡垒
+// ============================================================
+
+function buildLevel20(): TilePosition[] {
+  const positions: TilePosition[] = [];
+  // 底层：10x6 = 60
+  positions.push(...rectLayer(0, 0, 10, 6, 0));
+  // 二层：8x4 = 32
+  positions.push(...rectLayer(2, 2, 8, 4, 1));
+  // 三层：4x3 = 12
+  positions.push(...rectLayer(6, 3, 4, 3, 2));
+  // 四层：4x2 = 8
+  positions.push(...rectLayer(6, 4, 4, 2, 3));
+  // 五层：2x2 = 4
+  positions.push(...rectLayer(8, 5, 2, 2, 4));
+  // 六层：1x2 = 2
+  positions.push(...rectLayer(9, 5, 1, 2, 5));
+  // 七层：1x2 = 2
+  positions.push(...rectLayer(9, 5, 1, 2, 6));
+  return positions;  // 60+32+12+8+4+2+2=120
+}
+
+const level20Layout: BoardConfig = {
+  id: 'level_20_legend',
+  name: '传说',
+  cols: 20,
+  rows: 14,
+  layers: 7,
+  tilePositions: buildLevel20(),
+  totalTiles: 120,
+};
+
 // 运行验证
 const allLayouts = [
   level1Layout, level2Layout, level3Layout, level4Layout, level5Layout,
   level6Layout, level7Layout, level8Layout, level9Layout, level10Layout,
+  level11Layout, level12Layout, level13Layout, level14Layout, level15Layout,
+  level16Layout, level17Layout, level18Layout, level19Layout, level20Layout,
 ];
 
 for (const layout of allLayouts) {
